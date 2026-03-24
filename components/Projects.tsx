@@ -12,13 +12,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+type Project = {
+  number: string;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  imageOnLeft: boolean;
+  role: string;
+  skills: string[];
+  pictures: string[];
+};
+
 export default function Projects() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [modalType, setModalType] = useState<"school" | "personal" | null>(null);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
 
-  const schoolProjects = [
+  const schoolProjects: Project[] = [
     {
       number: "01",
       title: "Imajica Aesthetics",
@@ -57,7 +69,7 @@ export default function Projects() {
     },
   ];
 
-  const personalProjects = [
+  const personalProjects: Project[] = [
     {
       number: "01",
       title: "Cuisining",
@@ -145,7 +157,7 @@ export default function Projects() {
       : null;
 
   const renderProjects = (
-    list: typeof schoolProjects,
+    list: Project[],
     type: "school" | "personal"
   ) =>
     list.map((project, index) => (
@@ -224,7 +236,7 @@ export default function Projects() {
       </div>
 
       {/* Project Detail Modal */}
-      <Dialog open={!!activeProject && !galleryOpen} onOpenChange={(open) => !open && closeModal()}>
+      <Dialog open={!!activeProject} onOpenChange={(open) => !open && closeModal()}>
         <DialogContent className="max-w-2xl">
           <DialogHeader className="mb-3">
             <DialogTitle className="text-xl font-bold text-black dark:text-white">
@@ -232,83 +244,81 @@ export default function Projects() {
             </DialogTitle>
           </DialogHeader>
 
-          <div className="flex flex-wrap items-start gap-6 pt-2">
-            {activeProject?.role && (
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
-                  Role
-                </p>
-                <p className="text-sm font-medium">{activeProject.role}</p>
-              </div>
-            )}
+          {!galleryOpen && (
+            <>
+              <div className="flex flex-wrap items-start gap-6 pt-2">
+                {activeProject?.role && (
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                      Role
+                    </p>
+                    <p className="text-sm font-medium">{activeProject.role}</p>
+                  </div>
+                )}
 
-            {activeProject?.skills && activeProject.skills.length > 0 && (
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
-                  Skills
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {activeProject.skills.map((skill: string, i: number) => (
-                    <Badge
-                      key={i}
-                      variant="secondary"
-                      className="rounded-full px-3 py-1 text-sm"
-                    >
-                      {skill}
+                {activeProject?.skills && activeProject.skills.length > 0 && (
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                      Skills
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {activeProject.skills.map((skill, i) => (
+                        <Badge
+                          key={i}
+                          variant="secondary"
+                          className="rounded-full px-3 py-1 text-sm"
+                        >
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Pictures Button */}
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-2">
+                <Button
+                  variant="outline"
+                  onClick={openGallery}
+                  disabled={!activeProject?.pictures || activeProject.pictures.length === 0}
+                  className="flex items-center gap-2 text-sm"
+                >
+                  <Images size={16} />
+                  Pictures
+                  {activeProject?.pictures && activeProject.pictures.length > 0 && (
+                    <Badge variant="secondary" className="ml-1 px-2 py-0 text-xs">
+                      {activeProject.pictures.length}
                     </Badge>
-                  ))}
-                </div>
+                  )}
+                </Button>
+                {(!activeProject?.pictures || activeProject.pictures.length === 0) && (
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                    No pictures available for this project yet.
+                  </p>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
 
-          {/* Pictures Button */}
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-2">
-            <Button
-              variant="outline"
-              onClick={openGallery}
-              disabled={!activeProject?.pictures || activeProject.pictures.length === 0}
-              className="flex items-center gap-2 text-sm"
-            >
-              <Images size={16} />
-              Pictures
-              {activeProject?.pictures && activeProject.pictures.length > 0 && (
-                <Badge variant="secondary" className="ml-1 px-2 py-0 text-xs">
-                  {activeProject.pictures.length}
-                </Badge>
-              )}
-            </Button>
-            {(!activeProject?.pictures || activeProject.pictures.length === 0) && (
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-                No pictures available for this project yet.
-              </p>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Gallery Modal */}
-      <Dialog open={galleryOpen} onOpenChange={(open) => !open && setGalleryOpen(false)}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader className="mb-3">
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setGalleryOpen(false)}
-                className="h-7 w-7 text-gray-500 hover:text-black dark:hover:text-white"
-                aria-label="Back to project"
-              >
-                <ChevronLeft size={18} />
-              </Button>
-              <DialogTitle className="text-xl font-bold text-black dark:text-white">
-                {activeProject?.title} — Pictures
-              </DialogTitle>
-            </div>
-          </DialogHeader>
-
-          {activeProject?.pictures && activeProject.pictures.length > 0 ? (
+          {/* Inline Gallery (inside the same dialog) */}
+          {galleryOpen && activeProject?.pictures && activeProject.pictures.length > 0 && (
             <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setGalleryOpen(false)}
+                  className="h-7 w-7 text-gray-500 hover:text-black dark:hover:text-white"
+                  aria-label="Back to project"
+                >
+                  <ChevronLeft size={18} />
+                </Button>
+                <p className="text-sm font-semibold text-black dark:text-white">
+                  {activeProject.title} — Pictures
+                </p>
+              </div>
+
               {/* Main image viewer */}
               <div className="relative w-full h-72 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
                 <Image
@@ -318,7 +328,6 @@ export default function Projects() {
                   className="object-contain"
                 />
 
-                {/* Prev / Next arrows */}
                 {activeProject.pictures.length > 1 && (
                   <>
                     <button
@@ -338,7 +347,6 @@ export default function Projects() {
                   </>
                 )}
 
-                {/* Counter */}
                 <div className="absolute bottom-2 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
                   {galleryIndex + 1} / {activeProject.pictures.length}
                 </div>
@@ -347,7 +355,7 @@ export default function Projects() {
               {/* Thumbnails */}
               {activeProject.pictures.length > 1 && (
                 <div className="flex gap-2 overflow-x-auto pb-1">
-                  {activeProject.pictures.map((pic: string, i: number) => (
+                  {activeProject.pictures.map((pic, i) => (
                     <button
                       key={i}
                       onClick={() => setGalleryIndex(i)}
@@ -363,8 +371,6 @@ export default function Projects() {
                 </div>
               )}
             </div>
-          ) : (
-            <p className="text-sm text-gray-400 dark:text-gray-500">No pictures available.</p>
           )}
         </DialogContent>
       </Dialog>
