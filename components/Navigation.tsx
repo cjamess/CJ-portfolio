@@ -10,7 +10,7 @@ export default function Navigation() {
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold text-black dark:text-white">
+        <Link href="#home" className="text-xl font-bold text-black dark:text-white">
           ANTONIO
         </Link>
         

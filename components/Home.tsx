@@ -27,7 +27,7 @@ export default function Home() {
           {/* Social Icons */}
           <div className="flex gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/cjamess"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:opacity-80 transition"
@@ -36,7 +36,7 @@ export default function Home() {
               <Github size={24} />
             </a>
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/ploouuuf/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 border border-black dark:border-white text-black dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"
@@ -51,7 +51,7 @@ export default function Home() {
               </svg>
             </a>
             <a
-              href="https://gmail.com"
+              href="https://mail.google.com/mail/u/1/#inbox?compose=new"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 border border-black dark:border-white text-black dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"
@@ -60,7 +60,7 @@ export default function Home() {
               <Mail size={24} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/plouf/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 border border-black dark:border-white text-black dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"
