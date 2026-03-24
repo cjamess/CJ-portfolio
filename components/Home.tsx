@@ -9,7 +9,7 @@ export default function Home() {
         <div className="flex flex-col justify-center">
           <div className="mb-8">
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
-              Hello I am
+              Hello! I am
             </p>
             <h1 className="text-5xl md:text-6xl font-bold text-black dark:text-white mb-4">
               Christian James A. Antonio.
